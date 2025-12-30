@@ -2,23 +2,32 @@
 <html>
 <head>
     <title>My Expenses</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Show logged-in user and logout link -->
-    <h1>My Expenses - Welcome {{ request.user.username }}</h1>
-    <a href="{% url 'logout' %}">Logout</a> | 
-    <a href="{% url 'add_expense' %}">Add New Expense</a>
+    <div class="container mt-4">
+        <h1 class="mb-3">My Expenses - Welcome {{ request.user.username }}</h1>
 
-    <ul>
-        {% for expense in expenses %}
-            <li>
-                {{ expense.date }} - {{ expense.title }} - ${{ expense.amount }} - {{ expense.category }}
-                <a href="{% url 'edit_expense' expense.id %}">Edit</a>
-                <a href="{% url 'delete_expense' expense.id %}">Delete</a>
-            </li>
-        {% empty %}
-            <li>No expenses yet.</li>
-        {% endfor %}
-    </ul>
+        <div class="mb-3">
+            <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+            <a href="{% url 'add_expense' %}" class="btn btn-primary">Add New Expense</a>
+        </div>
+
+        <ul class="list-group">
+            {% for expense in expenses %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ expense.date }} - {{ expense.title }} - ${{ expense.amount }} - {{ expense.category }}
+                    <span>
+                        <a href="{% url 'edit_expense' expense.id %}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{% url 'delete_expense' expense.id %}" class="btn btn-sm btn-danger">Delete</a>
+                    </span>
+                </li>
+            {% empty %}
+                <li class="list-group-item">No expenses yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
