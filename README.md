@@ -1,1 +1,4 @@
-# django-expense-tracker
+# Expense Tracker Django
+
+# Author
+Samyam Pradhan
