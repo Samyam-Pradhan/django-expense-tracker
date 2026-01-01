@@ -44,3 +44,30 @@ def delete_expense(request, expense_id):
         expense.delete()
         return redirect('expense_list')
     return render(request, 'expenses/delete_expense.html', {'expense': expense})
+
+from django.db.models import Sum
+from datetime import datetime
+
+@login_required
+def monthly_expense_summary(request):
+    month = request.GET.get('month')
+    year = request.GET.get('year')
+
+    total = None
+    expenses = []
+
+    if month and year:
+        expenses = Expense.objects.filter(
+            user=request.user,
+            date__month=month,
+            date__year=year
+        )
+
+        total = expenses.aggregate(Sum('amount'))['amount__sum'] or 0
+
+    return render(request, 'expenses/monthly_summary.html', {
+        'total': total,
+        'expenses': expenses,
+        'selected_month': month,
+        'selected_year': year,
+    })

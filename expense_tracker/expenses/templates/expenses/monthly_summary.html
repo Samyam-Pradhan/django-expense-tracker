@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Monthly Expense Summary</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+
+    <!-- Header + Back Button -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Monthly Expense Summary</h2>
+        <a href="{% url 'expense_list' %}" class="btn btn-secondary">
+            ← Back to Expenses
+        </a>
+    </div>
+
+    <!-- Month & Year Form -->
+    <form method="get" class="row g-3 mb-4">
+        <div class="col-md-4">
+            <label class="form-label">Month</label>
+            <select name="month" class="form-control" required>
+                <option value="">Select Month</option>
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Year</label>
+            <input type="number" name="year" class="form-control" placeholder="2026" required>
+        </div>
+
+        <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary">View Summary</button>
+        </div>
+    </form>
+
+    {% if total != None %}
+        <h4>Total Spent: <strong>${{ total }}</strong></h4>
+
+        <ul class="list-group mt-3">
+            {% for expense in expenses %}
+                <li class="list-group-item">
+                    {{ expense.date }} - {{ expense.title }} - ${{ expense.amount }}
+                </li>
+            {% empty %}
+                <li class="list-group-item">No expenses found for this month.</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+</div>
+</body>
+</html>
